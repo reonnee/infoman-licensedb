@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, flash
 import mysql.connector
 import random
@@ -6,13 +7,15 @@ from datetime import date
 app = Flask(__name__)
 app.secret_key = "license_portal_secret_key"
 
-# Connect to the MySQL database
+# tidb
 license = mysql.connector.connect(
-  host="127.0.0.1",
-  user="root",
-  password="June-17-2006",
-  database="license123"
-)
+    host=os.environ.get("DB_HOST", "127.0.0.1"),
+    port=int(os.environ.get("DB_PORT", 3306)),
+    user=os.environ.get("DB_USER", "root"),
+    password=os.environ.get("DB_PASSWORD", "June-17-2006"),
+    database=os.environ.get("DB_NAME", "license"),
+    ssl_verify_cert=True,
+    ssl_mode='VERIFY_IDENTITY'
 cursor = license.cursor(dictionary=True)
 
 FIELDS = [
@@ -463,6 +466,8 @@ def delete_record(app_id):
     return redirect(url_for('view_records'))
       
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Render requires the app to listen on 0.0.0.0 and a dynamic port environment variable
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
       
       
