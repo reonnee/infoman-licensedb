@@ -10,7 +10,7 @@ app.secret_key = "license_portal_secret_key"
 # tidb
 license = mysql.connector.connect(
     host=os.environ.get("DB_HOST", "127.0.0.1"),
-    port=int(os.environ.get("DB_PORT", 3306),
+    port=int(os.environ.get("DB_PORT", 3306)),
     user=os.environ.get("DB_USER", "root"),
     password=os.environ.get("DB_PASSWORD", "June-17-2006"),
     database=os.environ.get("DB_NAME", "license"),
@@ -343,7 +343,6 @@ def submit():
         )
     
     license.commit()
-    from flask import redirect, url_for
     return redirect(url_for('success', application_id=application_id))
 
   except Exception as e:
