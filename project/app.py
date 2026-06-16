@@ -16,6 +16,7 @@ license = mysql.connector.connect(
     database=os.environ.get("DB_NAME", "license"),
     ssl_verify_cert=True,
     ssl_mode='VERIFY_IDENTITY'
+) 
 cursor = license.cursor(dictionary=True)
 
 FIELDS = [
