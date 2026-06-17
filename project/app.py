@@ -503,12 +503,8 @@ def success():
     return "Profile data initialization structural failure.", 404
   return render_template('success.html', profile=profile_data)
 
-@app.route('/summary')
-def summary():
-    app_id = request.args.get('application_id')
-    if not app_id:
-        return "Missing application_id parameter.", 400
-        
+@app.route('/summary/<app_id>')
+def summary(app_id):
     profile_data = retrieve_all(application_id=app_id)
     
     if not profile_data:
