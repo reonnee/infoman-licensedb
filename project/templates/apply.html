@@ -69,6 +69,11 @@
                 "License Number"
             ] %}
 
+            {% set organ_options = [
+                "Kidneys", "Heart", "Cornea", "Eyes", "Pancreas",
+                "Liver", "Lungs", "Bones", "Skin"
+            ] %}
+
 
             {% for section in sections %}
 
@@ -224,6 +229,25 @@
                                 </select>
                                 <div class="invalid-feedback">Please select type of application.</div>
 
+                                {% elif field_name == "Organ Details" %}
+
+                                <div class="border rounded p-2">
+                                    {% for organ in organ_options %}
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            name="organ_details"
+                                            value="{{ organ }}"
+                                            id="organ_{{ loop.index }}"
+                                        >
+                                        <label class="form-check-label" for="organ_{{ loop.index }}">
+                                            {{ organ }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+
                                 {% else %}
                                 
                                 <input
@@ -355,7 +379,7 @@
 </div>
 
 <script> 
-    const form = document.getElementById('licenseForm');
+    const form = document.querySelector('form');
     const formError = document.getElementById('form-error');
     const formSuccess = document.getElementById('form-success');
     const dlvcError = document.getElementById('dlvc-error');
