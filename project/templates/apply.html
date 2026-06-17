@@ -225,15 +225,22 @@
                                 <div class="invalid-feedback">Please select type of application.</div>
 
                                 {% else %}
-
+                                
                                 <input
                                     type="text"
                                     class="form-control"
                                     name="{{ field_name }}"
-                                    required
+                                    {% if field_name not in optional_fields %}
+                                        required
+                                    {% endif %}
                                 >
-                                <div class="invalid-feedback">This field is required.</div>
-
+                                
+                                {% if field_name not in optional_fields %}
+                                    <div class="invalid-feedback">
+                                        This field is required.
+                                    </div>
+                                {% endif %}
+                                
                                 {% endif %}
 
                             </div>
