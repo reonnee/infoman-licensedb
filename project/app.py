@@ -142,7 +142,12 @@ def home():
 @app.route('/apply')
 def apply():
     return render_template('apply.html', sections=FIELDS, categories=CATEGORIES)
-  
+
+
+def clean_field(val, is_numeric=False):
+    if val is None or str(val).strip() == "":
+        return None
+    return int(val) if is_numeric and str(val).isdigit() else val
 # SUBMITTING THE FORM
   
 @app.route('/submit', methods=['POST'])
@@ -171,6 +176,13 @@ def submit():
   full_name = form_data.get("Full Name")
   father = form_data.get("Father's Name")
   mother = form_data.get("Mother's Name")
+
+  #data cleaning
+  weight = clean_field(form_data.get("Weight"), is_numeric=True)
+  height = clean_field(form_data.get("Height"), is_numeric=True)
+  condition = clean_field(form_data.get("Condition"), is_numeric=True)
+  lca = clean_field(form_data.get("License Classification Applied For (LCA)"), is_numeric=True)
+  organ_donor = 1 if form_data.get("Organ Donor") == "1" else 0
 
 
   try:
@@ -282,14 +294,14 @@ def submit():
           form_data.get("Spouse's Name"),
           form_data.get("License Number"),
           form_data.get("Highest Educational Attainment (HEA)"),
-          form_data.get("Height"),
-          form_data.get("Weight"),
+          height,
+          weight,
           form_data.get("Blood Type"),
-          form_data.get("Organ Donor"),
+          organ_donor,
           form_data.get("Eye Color"),
           form_data.get("Agency Code"),
-          form_data.get("License Classification Applied For (LCA)"),
-          form_data.get("Condition"),
+          lca,
+          condition,
           dsa_code,
           employer_id,
           )
