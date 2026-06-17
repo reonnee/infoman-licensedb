@@ -170,7 +170,7 @@ def submit():
   #DATE
   issue_date = date.today()
   expiry_date = date(
-    issue_date.year + 4,
+    issue_date.year + 5,
     issue_date.month, 
     issue_date.day
   )
@@ -359,14 +359,16 @@ def submit():
         )
 
     final_toa = toa_r if renew else form_data.get("Type of Application (TOA)")
-  # Insert data into the Application table
+  if final_toa == "Renewal"
+    final_expiry_date += 10
+      # Insert data into the Application table
     cursor.execute("""
       INSERT INTO application (
         application_id,
         applicant_id,
         toa,
         issue_date,
-        expiry_date
+        final_expiry_date
       ) VALUES (%s, %s, %s, %s, %s)
       """,
       (
