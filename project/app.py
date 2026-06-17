@@ -171,7 +171,6 @@ def submit():
   full_name = form_data.get("Full Name")
   father = form_data.get("Father's Name")
   mother = form_data.get("Mother's Name")
-  applicationType = form_data.get("Type of Application (TOA)")
 
 
   try:
@@ -221,11 +220,11 @@ def submit():
 
  # applicant table
     cursor.execute("""
-        SELECT a.applicant_id 
-        FROM applicant a JOIN application b ON a.applicant_id = b.applicant_id
-        WHERE aplname = %s AND father_name = %s AND mother_name = %s AND toa = %s
+        SELECT applicant_id 
+        FROM applicant
+        WHERE aplname = %s AND father_name = %s AND mother_name = %s
         LIMIT 1
-    """, (full_name, father, mother, applicationType))
+    """, (full_name, father, mother))
       
     existing_applicant = cursor.fetchone()
 
