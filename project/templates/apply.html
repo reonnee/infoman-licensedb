@@ -460,9 +460,6 @@
     }
     
     form.addEventListener('submit', function (e) {
-        
-        e.preventDefault();
-        e.stopPropagation();
 
         let valid = true;
 
@@ -488,6 +485,9 @@
         form.classList.add('was-validated');
 
         if (!valid) {
+            e.preventDefault();
+            e.stopPropagation();
+            
             formSuccess.classList.add('d-none');
 
             const missing = getMissingFieldNames();
@@ -511,8 +511,6 @@
         } else {
             formError.classList.add('d-none');
             dlvcError.classList.add('d-none');
-            formSuccess.classList.remove('d-none');
-            formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     });
 
