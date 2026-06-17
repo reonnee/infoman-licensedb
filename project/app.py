@@ -524,6 +524,11 @@ def delete_record(app_id):
             # Cascading deletion to safely clear records across related tables
             cursor.execute("DELETE FROM dl_details WHERE application_id = %s", (app_id,))
             cursor.execute("DELETE FROM application WHERE application_id = %s", (app_id,))
+
+            cursor.execute("SELECT COUNT(*) AS cnt FROM application WHERE applicant_id = %s", (tgt_applicant,))
+            remaining = cursor.fetchone()
+
+            if remaining['cnt'] == 0:
             cursor.execute("DELETE FROM emergency WHERE applicant_id = %s", (tgt_applicant,))
             cursor.execute("DELETE FROM organ WHERE applicant_id = %s", (tgt_applicant,))
             
