@@ -1,1 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Processing Complete</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background: linear-gradient(135deg, #0a2a6e 0%, #1a4ba8 60%, #1565c0 100%); min-height: 100vh;">
 
+<div class="container my-5" style="max-width: 850px;">
+    <div class="card shadow p-4 bg-white rounded-3">
+      
+        <h3 class="fw-bold text-dark text-center mb-4">Submission Summary</h3>
+
+        <div class="card mb-3 border-secondary-subtle">
+            <div class="card-header bg-dark text-white fw-bold">Application Identity Meta</div>
+            <div class="card-body row g-2">
+                <div class="col-sm-6"><strong>Application ID:</strong> <code>{{ profile.application_id }}</code></div>
+                <div class="col-sm-6"><strong>Applicant ID:</strong> <code>{{ profile.applicant_id }}</code></div>
+                <div class="col-sm-4"><strong>Type of App (TOA):</strong> {{ profile.toa }}</div>
+                <div class="col-sm-4"><strong>Issue Date:</strong> {{ profile.issue_date }}</div>
+                <div class="col-sm-4"><strong>Expiry Date:</strong> {{ profile.expiry_date }}</div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header bg-light fw-bold text-primary">Applicant Demographic Fields</div>
+            <div class="card-body row g-3">
+                <div class="col-sm-6"><strong>Full Name:</strong> {{ profile.aplname }}</div>
+                <div class="col-sm-6"><strong>Address:</strong> {{ profile.aplAddress }}</div>
+                <div class="col-sm-4"><strong>Nationality:</strong> {{ profile.aplNationality }}</div>
+                <div class="col-sm-4"><strong>Sex:</strong> {{ profile.aplSex }}</div>
+                <div class="col-sm-4"><strong>Contact Number:</strong> {{ profile.aplContact }}</div>
+                <div class="col-sm-4"><strong>Birthdate:</strong> {{ profile.aplBirthdate }}</div>
+                <div class="col-sm-4"><strong>Birthplace:</strong> {{ profile.aplBirthplace }}</div>
+                <div class="col-sm-4"><strong>TIN Check:</strong> {{ profile.TIN }}</div>
+                <div class="col-sm-4"><strong>Civil Status:</strong> {{ profile.civil_status }}</div>
+                <div class="col-sm-4"><strong>Father's Name:</strong> {{ profile.father_name }}</div>
+                <div class="col-sm-4"><strong>Mother's Name:</strong> {{ profile.mother_name }}</div>
+                <div class="col-sm-4"><strong>Spouse's Name:</strong> {{ profile.spouse_name or 'N/A' }}</div>
+                <div class="col-sm-4"><strong>License Number:</strong> {{ profile.license_num }}</div>
+                <div class="col-sm-4"><strong>HEA Level:</strong> {{ profile.hea }}</div>
+                <div class="col-sm-4"><strong>Height (cm):</strong> {{ profile.aplHeight }}</div>
+                <div class="col-sm-4"><strong>Weight (kg):</strong> {{ profile.aplWeight }}</div>
+                <div class="col-sm-4"><strong>Blood Type:</strong> {{ profile.aplBloodType }}</div>
+                <div class="col-sm-4"><strong>Organ Donor Option:</strong> {{ 'Yes' if profile.isOrganDonor == 1 else 'No' }}</div>
+                <div class="col-sm-4"><strong>Eye Color:</strong> {{ profile.aplEyeColor }}</div>
+                <div class="col-sm-4"><strong>Agency Code:</strong> {{ profile.agency_code }}</div>
+                <div class="col-sm-4"><strong>LCA Code:</strong> {{ profile.LCA }}</div>
+                <div class="col-sm-4"><strong>Medical Condition Option:</strong> {{ profile.medical_condition }}</div>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header bg-light fw-bold">Work Details [ID: {{ profile.employer_id }}]</div>
+                    <div class="card-body small">
+                        <div><strong>Business/Employer Name:</strong> {{ profile.empBName or 'N/A' }}</div>
+                        <div><strong>Contact:</strong> {{ profile.empBContact or 'N/A' }}</div>
+                        <div><strong>Address:</strong> {{ profile.empBAddress or 'N/A' }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header bg-light fw-bold">Emergency [ID: {{ profile.emergency_id }}]</div>
+                    <div class="card-body small">
+                        <div><strong>Contact Person:</strong> {{ profile.emergencyName }}</div>
+                        <div><strong>Contact Number:</strong> {{ profile.emergencyContact }}</div>
+                        <div><strong>Contact Address:</strong> {{ profile.emergencyAddress }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header bg-light fw-bold">Other information</div>
+            <div class="card-body row g-2 small">
+                <div class="col-sm-6"><strong>Organ Specification Details:</strong> {{ profile.organ_details or 'None Specified' }}</div>
+                <div class="col-sm-6"><strong>Driving School (DSA) [{{ profile.dsa_code }}]:</strong> {{ profile.dsa_details }}</div>
+            </div>
+        </div>
+
+        {% if profile.matrix_details %}
+        <div class="card mb-4">
+            <div class="card-header bg-light fw-bold">Registered Vehicles | DLVC Details </div>
+            <div class="card-body p-0">
+                <table class="table table-sm table-striped m-0">
+                    <thead>
+                        <tr class="table-secondary">
+                            <th>Code</th><th>Status</th><th>Category</th><th>Clutch</th><th>SV</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in profile.matrix_details %}
+                        <tr>
+                            <td><strong>{{ row.dlvc_code }}</strong></td>
+                            <td>{{ row.status }}</td>
+                            <td>{{ row.license_category }}</td>
+                            <td>{{ row.clutch_type }}</td>
+                            <td>{{ 'Yes' if row.sv == 1 else 'No' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row g-2">
+            <div class="col-sm-6"><a href="/records" class="btn btn-success w-100 fw-bold">Open Complete Registry</a></div>
+            <div class="col-sm-6"><a href="/" class="btn btn-outline-secondary w-100 fw-bold">Main Dashboard</a></div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
