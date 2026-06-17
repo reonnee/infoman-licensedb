@@ -169,9 +169,28 @@ def submit():
   emp_name = form_data.get("Employer/Business Name")
   emp_contact = form_data.get("Employer/Business Contact")
   emp_address = form_data.get("Employer/Business Address")
-    
+
+  #titignan if existing ang aplname, if yes then retain aplID
   try:
-    #titingnan if existing na xia
+    cursor.execute("""
+        SELECT applicant_id 
+        FROM applicant 
+        WHERE aplname = %s
+        LIMIT 1
+    """, (full_name,))
+    existing_applicant = cursor.fetchone()
+  except Exception as e:
+    print(f"Error checking existing applicant name: {e}")
+    existing_applicant = None
+
+  # Reuse existing Applicant ID if found, otherwise generate a new one
+  if existing_applicant:
+    applicant_id = existing_applicant['applicant_id']
+  else:
+    applicant_id = generate_id("applicant", "applicant_id", "APL")
+
+  #titingnan if existing na xia
+  try:
     cursor.execute("""
         SELECT employer_id
         FROM work
