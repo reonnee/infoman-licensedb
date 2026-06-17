@@ -208,25 +208,25 @@ def submit():
     existing_employer = cursor.fetchone()
 
     #reuse na lang if existing na
-        if existing_employer:
-            employer_id = existing_employer['employer_id']
-        else:  # Insert data into the Employer table
-            employer_id = generate_id("work", "employer_id", "#EMP")
-    cursor.execute("""
-    INSERT INTO work (
-    employer_id,
-    empBName,
-    empBContact,
-    empBAddress
-    ) VALUES (%s, %s, %s, %s)
-""", 
-    (
-    employer_id, 
-    form_data.get("Employer/Business Name"), 
-    form_data.get("Employer/Business Contact"), 
-    form_data.get("Employer/Business Address")
+    if existing_employer:
+        employer_id = existing_employer['employer_id']
+    else:  # Insert data into the Employer table
+        employer_id = generate_id("work", "employer_id", "#EMP")
+        cursor.execute("""
+        INSERT INTO work (
+        employer_id,
+        empBName,
+        empBContact,
+        empBAddress
+        ) VALUES (%s, %s, %s, %s)
+    """, 
+        (
+        employer_id, 
+        form_data.get("Employer/Business Name"), 
+        form_data.get("Employer/Business Contact"), 
+        form_data.get("Employer/Business Address")
+        )
     )
-)
   #check if LCA = 1
         if lca == 1:
             license_num = generate_lto_license_number()
@@ -262,67 +262,67 @@ def submit():
         else:
             applicant_id = generate_id("applicant", "applicant_id", "APL")
       # Insert data into the Applicant table
-cursor.execute("""
-    INSERT INTO applicant (
-        applicant_id,
-        aplname, 
-        aplAddress, 
-        aplNationality, 
-        aplSex, 
-        aplContact,
-        aplBirthdate,
-        aplBirthplace,
-        TIN,
-        civil_status,
-        father_name,
-        mother_name,
-        spouse_name,
-        license_num,
-        hea,
-        aplHeight,
-        aplWeight,
-        aplBloodType,
-        isOrganDonor,
-        aplEyeColor,
-        agency_code,
-        LCA,
-        medical_condition,
-        dsa_code,
-        employer_id
-        ) VALUES (%s, %s, %s, %s, %s, 
-                %s, %s, %s, %s, %s, 
-                %s, %s, %s, %s, %s, 
-                %s, %s, %s, %s, %s, 
-                %s, %s, %s, %s, %s)
-    """,
-        (
-        applicant_id,
-        form_data.get("Full Name"), 
-        form_data.get("Address"), 
-        form_data.get("Nationality"), 
-        form_data.get("Sex"),
-        form_data.get("Contact Number"),
-        form_data.get("Birthdate"),
-        form_data.get("Birthplace"),
-        form_data.get("TIN"),
-        form_data.get("Civil Status"),
-        form_data.get("Father's Name"),
-        form_data.get("Mother's Name"),
-        form_data.get("Spouse's Name"),
-        license_num,
-        form_data.get("Highest Educational Attainment (HEA)"),
-        height,
-        weight,
-        form_data.get("Blood Type"),
-        organ_donor,
-        form_data.get("Eye Color"),
-        form_data.get("Agency Code"),
-        lca,
-        condition,
-        dsa_code,
-        employer_id,
-        )
-    )  
+    cursor.execute("""
+        INSERT INTO applicant (
+            applicant_id,
+            aplname, 
+            aplAddress, 
+            aplNationality, 
+            aplSex, 
+            aplContact,
+            aplBirthdate,
+            aplBirthplace,
+            TIN,
+            civil_status,
+            father_name,
+            mother_name,
+            spouse_name,
+            license_num,
+            hea,
+            aplHeight,
+            aplWeight,
+            aplBloodType,
+            isOrganDonor,
+            aplEyeColor,
+            agency_code,
+            LCA,
+            medical_condition,
+            dsa_code,
+            employer_id
+            ) VALUES (%s, %s, %s, %s, %s, 
+                    %s, %s, %s, %s, %s, 
+                    %s, %s, %s, %s, %s, 
+                    %s, %s, %s, %s, %s, 
+                    %s, %s, %s, %s, %s)
+        """,
+            (
+            applicant_id,
+            form_data.get("Full Name"), 
+            form_data.get("Address"), 
+            form_data.get("Nationality"), 
+            form_data.get("Sex"),
+            form_data.get("Contact Number"),
+            form_data.get("Birthdate"),
+            form_data.get("Birthplace"),
+            form_data.get("TIN"),
+            form_data.get("Civil Status"),
+            form_data.get("Father's Name"),
+            form_data.get("Mother's Name"),
+            form_data.get("Spouse's Name"),
+            license_num,
+            form_data.get("Highest Educational Attainment (HEA)"),
+            height,
+            weight,
+            form_data.get("Blood Type"),
+            organ_donor,
+            form_data.get("Eye Color"),
+            form_data.get("Agency Code"),
+            lca,
+            condition,
+            dsa_code,
+            employer_id,
+            )
+        )  
   
   # Insert data into the Emergency table
     cursor.execute(""" 
