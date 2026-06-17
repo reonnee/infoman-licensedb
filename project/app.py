@@ -207,10 +207,10 @@ def submit():
     existing_employer = cursor.fetchone()
 
     #reuse na lang if existing na
-    if existing_employer:
-        employer_id = existing_employer['employer_id']
-    else:  # Insert data into the Employer table
-         employer_id = generate_id("work", "employer_id", "#EMP")
+        if existing_employer:
+            employer_id = existing_employer['employer_id']
+        else:  # Insert data into the Employer table
+            employer_id = generate_id("work", "employer_id", "#EMP")
     cursor.execute("""
     INSERT INTO work (
     employer_id,
@@ -227,10 +227,10 @@ def submit():
     )
 )
   #check if LCA = 1
-    if lca == 1:
-        license_num = generate_lto_license_number()
-    else:
-        license_num = form_data.get("License Number")
+        if lca == 1:
+            license_num = generate_lto_license_number()
+        else:
+            license_num = form_data.get("License Number")
   # Insert data into the DSA table
     cursor.execute("""
       INSERT INTO dsa_details (
@@ -254,10 +254,10 @@ def submit():
       
     existing_applicant = cursor.fetchone()
 
-    if existing_applicant:
-        applicant_id = existing_applicant['applicant_id']
-    else:
-        applicant_id = generate_id("applicant", "applicant_id", "APL")
+        if existing_applicant:
+            applicant_id = existing_applicant['applicant_id']
+        else:
+            applicant_id = generate_id("applicant", "applicant_id", "APL")
       # Insert data into the Applicant table
 cursor.execute("""
     INSERT INTO applicant (
