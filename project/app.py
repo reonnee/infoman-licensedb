@@ -150,7 +150,7 @@ def submit():
   
   # Generate random IDs for applicant, application, employer, and emergency contact
   applicant_id = generate_id("applicant", "applicant_id", "APL")
-  application_id = generate_id("application", "application_id", "#")
+  application_id = generate_id("application", "application_id", "A")
   employer_id = generate_id("work", "employer_id", "#EMP")
   emergency_id = generate_id("emergency", "emergency_id", "#EMG")
   dsa_code = generate_id("dsa_details", "dsa_code", "DSA")
