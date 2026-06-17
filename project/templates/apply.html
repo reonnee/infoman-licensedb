@@ -103,6 +103,52 @@
 
                                 <label class="form-label">
                                     {{ field_name }}
+
+                                    {% if field_name|trim == "Full Name" %}
+                                        <span class="text-muted small">
+                                            (Family Name, First Name, Middle Name)
+                                        </span>
+
+                                    {% elif field_name|trim == "Address" %}
+                                        <span class="text-muted small">
+                                            (No., Street, City/Municipality, Province)
+                                        </span>
+
+                                    {% elif field_name|trim == "Height" %}
+                                        <span class="text-muted small">
+                                            (cm)
+                                        </span>
+
+                                    {% elif field_name|trim == "Weight" %}
+                                        <span class="text-muted small">
+                                            (kg)
+                                        </span>
+
+                                    {% elif field_name|trim == "Birthplace" %}
+                                        <span class="text-muted small">
+                                            (City/Municipality, Province)
+                                        </span>
+
+                                    {% elif field_name|trim == "Father's Name" %}
+                                        <span class="text-muted small">
+                                            (Family Name, First Name, Middle Name;)
+                                        </span>
+
+                                    {% elif field_name|trim == "Mother's Name" %}
+                                        <span class="text-muted small">
+                                            (Family Name, First Name, Middle Name)
+                                        </span>
+
+                                    {% elif field_name|trim == "Spouse's Name" %}
+                                        <span class="text-muted small">
+                                            (Family Name, First Name, Middle Name)
+                                        </span>
+
+                                    {% elif field_name|trim == "Organ Details" %}
+                                        <span class="text-muted small">
+                                            (Only if applicable)
+                                        </span>
+                                    {% endif %}
                                 </label>
 
                                 {% if field_type == "date" %}
