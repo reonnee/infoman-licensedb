@@ -103,12 +103,15 @@
 
                                 <label class="form-label">
                                     {{ field_name }}
-
-                                    {% if field_name|trim == "Full Name" %} 
-                                        <span class="text-muted small"> (Surname, First Name, Middle Name) </span>
-                                    
-                                    {% if field_name|trim == "Organ Details" %}
-                                        <span class="text-muted small">(only if applicable)</span>
+                                
+                                    {% if field_name|trim == "Full Name" %}
+                                        <span class="text-muted small">
+                                            (Surname, First Name, Middle Name)
+                                        </span>
+                                    {% elif field_name|trim == "Organ Details" %}
+                                        <span class="text-muted small">
+                                            (Only if applicable)
+                                        </span>
                                     {% endif %}
                                 </label>
 
