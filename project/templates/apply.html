@@ -35,6 +35,12 @@
         .dlvc-row.row-incomplete .dlvc-row-feedback {
             display: block;
         }
+        .col-md-6:has(input[required]) .form-label::after,
+        .col-md-6:has(select[required]) .form-label::after {
+            content: " *";
+            color: red;
+        }
+        
     </style>
 </head>
 <body style="background: linear-gradient(135deg, #0a2a6e 0%, #1a4ba8 60%, #1565c0 100%); min-height: 100vh;">
