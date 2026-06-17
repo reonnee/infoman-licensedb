@@ -188,38 +188,35 @@ def submit():
 
   try:
       
-    #titingnan if existing na xia (skip entirely if Work Details left blank)
-    employer_id = None
+    #titingnan if existing na xia
+    cursor.execute("""
+        SELECT employer_id
+        FROM work
+        WHERE empBName = %s AND empBAddress = %s
+    """, (emp_name, emp_address))
 
-    if emp_name or emp_contact or emp_address:
-        cursor.execute("""
-            SELECT employer_id
-            FROM work
-            WHERE empBName = %s AND empBAddress = %s
-        """, (emp_name, emp_address))
+    existing_employer = cursor.fetchone()
 
-        existing_employer = cursor.fetchone()
-
-        #reuse na lang if existing na
-        if existing_employer:
-            employer_id = existing_employer['employer_id']
-        else:  # Insert data into the Employer table
-             employer_id = generate_id("work", "employer_id", "#EMP")
-             cursor.execute("""
-              INSERT INTO work (
-                employer_id,
-                empBName,
-                empBContact,
-                empBAddress
-              ) VALUES (%s, %s, %s, %s)
-            """, 
-              (
-              employer_id, 
-              form_data.get("Employer/Business Name"), 
-              form_data.get("Employer/Business Contact"), 
-              form_data.get("Employer/Business Address")
-              )
-            )
+    #reuse na lang if existing na
+    if existing_employer:
+        employer_id = existing_employer['employer_id']
+    else:  # Insert data into the Employer table
+         employer_id = generate_id("work", "employer_id", "#EMP")
+         cursor.execute("""
+          INSERT INTO work (
+            employer_id,
+            empBName,
+            empBContact,
+            empBAddress
+          ) VALUES (%s, %s, %s, %s)
+        """, 
+          (
+          employer_id, 
+          form_data.get("Employer/Business Name"), 
+          form_data.get("Employer/Business Contact"), 
+          form_data.get("Employer/Business Address")
+          )
+        )
     
   # Insert data into the DSA table
     cursor.execute("""
@@ -402,13 +399,8 @@ def submit():
 
   except Exception as e:
     license.rollback()
-    print(f"Error inserting data: {e}")  # full detail stays in your server logs
-    return render_template(
-        'apply.html',
-        sections=FIELDS,
-        categories=CATEGORIES,
-        error="We couldn't save your application due to a system error. Please double-check your entries and try again. If the problem continues, contact support."
-    ), 500
+    print(f"Error inserting data: {e}")
+    return f"An error occurred while saving your application: {e}", 500
       
 @app.route('/debug-view')
 def debug_view():
@@ -498,14 +490,6 @@ def success():
     return "Profile data initialization structural failure.", 404
   return render_template('success.html', profile=profile_data)
 
-@app.route('/summary?application_id=<app_id>')
-def summary(app_id):
-  profile_data = retrieve_all(application_id=app_id)
-    
-  if not profile_data:
-    return "Profile data initialization structural failure.", 404
-  return render_template('success.html', profile=profile_data)
-
 @app.route('/delete/<app_id>', methods=['POST'])
 def delete_record(app_id):
     try:
@@ -536,3 +520,7 @@ if __name__ == "__main__":
     # Render requires the app to listen on 0.0.0.0 and a dynamic port environment variable
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+      
+      
+
+
