@@ -165,7 +165,6 @@ def submit():
   # Generate random IDs for applicant, application, employer, and emergency contact
   application_id = generate_id("application", "application_id", "A")
   emergency_id = generate_id("emergency", "emergency_id", "#EMG")
-  dsa_code = generate_id("dsa_details", "dsa_code", "DSA")
     
   #DATE
   issue_date = date.today()
@@ -173,6 +172,11 @@ def submit():
     issue_date.year + 5,
     issue_date.month, 
     issue_date.day
+  )
+  r_expiry_date = date(
+      issue_date.year + 10,
+      issue_date.month,
+      issue_date.day
   )
     
   # User input
@@ -186,6 +190,7 @@ def submit():
   father = form_data.get("Father's Name")
   mother = form_data.get("Mother's Name")
   selected_organs = request.form.getlist("Organ Details")
+  dsa_deets = form_data.get("Driving Skills Acquired From (DSA)")
 
   #data cleaning
   weight = clean_field(form_data.get("Weight"), is_numeric=True)
@@ -195,6 +200,7 @@ def submit():
   organ_donor = 1 if form_data.get("Organ Donor") == "1" else 0
   renew = False
   toa_r = "Renewal"
+  expiry10 = False
 
   try:
       
@@ -233,17 +239,30 @@ def submit():
     else:
         license_num = form_data.get("License Number")
   # Insert data into the DSA table
+      
     cursor.execute("""
-      INSERT INTO dsa_details (
-        dsa_code,
-        dsa_details
-      ) VALUES (%s, %s)
-    """,
-      (
-        dsa_code,
-        form_data.get("Driving Skills Acquired From (DSA)")
-      )
-    )
+        SELECT dsa_code
+        FROM work
+        WHERE dsa_details = %s
+    """, (dsa_deets,))
+
+    existing_dsa = cursor.fetchone()
+    #reuse na lang if existing na
+    if existing_dsa:
+        employer_id = existing_dsa['dsa_code']
+    else:  # Insert data into the Employer table
+        dsa_code = generate_id("dsa_details", "dsa_code", "DSA")
+        cursor.execute("""
+          INSERT INTO dsa_details (
+            dsa_code,
+            dsa_details
+          ) VALUES (%s, %s)
+        """,
+          (
+            dsa_code,
+            form_data.get("Driving Skills Acquired From (DSA)")
+          )
+        )
 
  # applicant table
     cursor.execute("""
@@ -359,8 +378,12 @@ def submit():
         )
 
     final_toa = toa_r if renew else form_data.get("Type of Application (TOA)")
-        if final_toa == "Renewal"
-            final_expiry_date = expiry_date + 10
+      
+    if final_toa = toa_r:
+        expiry10 = True
+
+    final_expiry = r_expiry_date if expiry10 else expiry_date
+      
       # Insert data into the Application table
     cursor.execute("""
       INSERT INTO application (
@@ -368,7 +391,7 @@ def submit():
         applicant_id,
         toa,
         issue_date,
-        final_expiry_date
+        expiry_date
       ) VALUES (%s, %s, %s, %s, %s)
       """,
       (
@@ -376,7 +399,7 @@ def submit():
       applicant_id, 
       final_toa, 
       issue_date, 
-      expiry_date
+      final_expiry
       )
     )
       
