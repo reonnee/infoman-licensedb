@@ -151,7 +151,6 @@ def submit():
   # Generate random IDs for applicant, application, employer, and emergency contact
   applicant_id = generate_id("applicant", "applicant_id", "APL")
   application_id = generate_id("application", "application_id", "A")
-  employer_id = generate_id("work", "employer_id", "#EMP")
   emergency_id = generate_id("emergency", "emergency_id", "#EMG")
   dsa_code = generate_id("dsa_details", "dsa_code", "DSA")
     
@@ -165,25 +164,42 @@ def submit():
     
   # User input
   form_data = request.form.to_dict()
+
+  #retrieve work details
+  emp_name = form_data.get("Employer/Business Name")
+  emp_contact = form_data.get("Employer/Business Contact")
+  emp_address = form_data.get("Employer/Business Address")
     
   try:
-
-  # Insert data into the Employer table
+    #titingnan if existing na xia
     cursor.execute("""
-      INSERT INTO work (
-        employer_id,
-        empBName,
-        empBContact,
-        empBAddress
-      ) VALUES (%s, %s, %s, %s)
-    """, 
-      (
-      employer_id, 
-      form_data.get("Employer/Business Name"), 
-      form_data.get("Employer/Business Contact"), 
-      form_data.get("Employer/Business Address")
-      )
-    )
+        SELECT employer_id
+        FROM work
+        WHERE empBname = %s
+    """, (emp_name,))
+
+    existing_employer = cursor.fetchone()
+
+    #reuse na lang if existing na
+    if existing_employer:
+        employer_id = existing_employer['employer_id']
+    else:  # Insert data into the Employer table
+         employer_id = generate_id("work", "employer_id", "#EMP")
+         cursor.execute("""
+          INSERT INTO work (
+            employer_id,
+            empBName,
+            empBContact,
+            empBAddress
+          ) VALUES (%s, %s, %s, %s)
+        """, 
+          (
+          employer_id, 
+          form_data.get("Employer/Business Name"), 
+          form_data.get("Employer/Business Contact"), 
+          form_data.get("Employer/Business Address")
+          )
+        )
     
   # Insert data into the DSA table
     cursor.execute("""
