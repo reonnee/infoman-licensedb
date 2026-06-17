@@ -372,7 +372,7 @@ def retrieve_all(application_id=None):
     # Base Query
     query = """
         SELECT
-            a.application_id, a.toa AS type_of_application, a.issue_date, a.expiry_date,
+            a.application_id, a.toa, a.issue_date, a.expiry_date,
             p.applicant_id, p.aplname, p.aplAddress, p.aplNationality, p.aplSex, p.aplContact,
             p.aplBirthdate, p.aplBirthplace, p.TIN, p.civil_status, p.father_name, p.mother_name,
             p.spouse_name, p.license_num, p.hea, p.aplHeight, p.aplWeight, p.aplBloodType,
