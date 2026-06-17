@@ -51,7 +51,7 @@
                         <td class="name-target-cell fw-bold text-primary">{{ row.full_name }}</td>
                         <td><span class="badge bg-secondary">{{ row.type_of_app }}</span></td>
                         <td>{{ row.license_num or 'N/A' }}</td>
-                        <td>{{ row.expiry_date }}</td>
+                        <td>{{ row.expiry_date.date() }}</td>
                         <td class="text-center">
                             <form action="/delete/{{ row.application_id }}" method="POST" onclick="return confirm('CRITICAL ACTION: Are you sure you want to delete this profile from the MySQL registry? All related record configurations will be lost.');" style="display:inline;">
                                 <button type="submit" class="btn btn-sm btn-danger px-3 fw-medium">Delete</button>
