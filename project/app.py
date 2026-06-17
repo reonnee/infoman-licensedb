@@ -249,7 +249,7 @@ def submit():
     existing_dsa = cursor.fetchone()
     #reuse na lang if existing na
     if existing_dsa:
-        employer_id = existing_dsa['dsa_code']
+        dsa_code = existing_dsa['dsa_code']
     else:  # Insert data into the Employer table
         dsa_code = generate_id("dsa_details", "dsa_code", "DSA")
         cursor.execute("""
