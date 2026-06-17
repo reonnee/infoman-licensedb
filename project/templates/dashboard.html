@@ -180,16 +180,19 @@
 
         .option-row {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 328px, 328px;
             gap: 26px;
-            width: 100%;
-            max-width: 1000px;
+            width: 680px;
+            max-width: none;
+            min-width: 680px;
             margin: 0 auto;
         }
 
         .option-card {
-            min-height: 230px;
+            min-height: 315px;
             padding: 32px;
+            width: 328px;
+            min-width: 328px
 
             display: flex;
             flex-direction: column;
@@ -332,10 +335,6 @@
 
             .hero-description {
                 font-size: 17px;
-            }
-
-            .option-row {
-                grid-template-columns: 1fr;
             }
 
             .option-card {
