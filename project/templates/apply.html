@@ -22,7 +22,7 @@
 
         <div class="card-body">
 
-            <form action="/submit" method="POST" id="licenseForm" novalidate>
+            <form action="/submit" method="POST">
 
             {% for section in sections %}
 
@@ -60,42 +60,35 @@
                                     type="date"
                                     class="form-control"
                                     name="{{ field_name }}"
-                                    required
                                 >
-                                <div class="invalid-feedback">This field is required.</div>
 
                                 {% elif field_type.startswith("tinyint") %}
 
                                 <select
                                     class="form-select"
                                     name="{{ field_name }}"
-                                    required
                                 >
                                     <option value="">Select</option>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
                                 </select>
-                                <div class="invalid-feedback">Please make a selection.</div>
 
                                 {% elif field_name == "Sex" %}
 
                                 <select
                                     class="form-select"
                                     name="{{ field_name }}"
-                                    required
                                 >
                                     <option value="">Select Sex</option>
                                     <option value="M">Male</option>
                                     <option value="F">Female</option>
                                 </select>
-                                <div class="invalid-feedback">Please select sex.</div>
 
                                 {% elif field_name == "Civil Status" %}
 
                                 <select
                                     class="form-select"
                                     name="{{ field_name }}"
-                                    required
                                 >
                                     <option value="">Select Status</option>
                                     <option>Single</option>
@@ -103,14 +96,12 @@
                                     <option>Widowed</option>
                                     <option>Separated</option>
                                 </select>
-                                <div class="invalid-feedback">Please select civil status.</div>
 
                                 {% elif field_name == "Blood Type" %}
 
                                 <select
                                     class="form-select"
                                     name="{{ field_name }}"
-                                    required
                                 >
                                     <option value="">Select Blood Type</option>
                                     <option>A+</option>
@@ -122,14 +113,12 @@
                                     <option>O+</option>
                                     <option>O-</option>
                                 </select>
-                                <div class="invalid-feedback">Please select blood type.</div>
 
                                 {% elif field_name == "Highest Educational Attainment (HEA)" %}
 
                                 <select
                                     class="form-select"
                                     name="{{ field_name }}"
-                                    required
                                 >
                                     <option value="">Select HEA</option>
                                     <option value="Edu1">Elementary</option>
@@ -137,21 +126,18 @@
                                     <option value="Edu3">College</option>
                                     <option value="Edu4">Graduate</option>
                                 </select>
-                                <div class="invalid-feedback">Please select educational attainment.</div>
 
                                 {% elif field_name == "License Classification Applied For (LCA)" %}
 
                                 <select
                                     class="form-select"
                                     name="{{ field_name }}"
-                                    required
                                 >
                                     <option value="">Select LCA</option>
                                     <option value="1">Student Driver's Permit (SP)</option>
                                     <option value="2">Driver's License (OL)</option>
                                     <option value="3">Conductor's License (CL)</option>
                                 </select>
-                                <div class="invalid-feedback">Please select a classification.</div>
 
                                 {% elif field_name == "Condition"%}
 
@@ -172,13 +158,11 @@
                                 <select
                                     class="form-select"
                                     name="{{ field_name }}"
-                                    required
                                 >
                                     <option value="">Select TOA</option>
                                     <option value="New">New Application</option>
                                     <option value="Renewal">Renewal</option>
                                 </select>
-                                <div class="invalid-feedback">Please select type of application.</div>
 
                                 {% else %}
 
@@ -186,9 +170,7 @@
                                     type="text"
                                     class="form-control"
                                     name="{{ field_name }}"
-                                    required
                                 >
-                                <div class="invalid-feedback">This field is required.</div>
 
                                 {% endif %}
 
@@ -212,9 +194,6 @@
 
     <div class="card-body">
 
-        <p class="text-muted small mb-2">Please select at least one DLVC category row (Applied or Existing) below.</p>
-        <div id="dlvc-error" class="alert alert-danger d-none">Please complete at least one DLVC row (Applied/Existing, Category, and AT/MT) before submitting.</div>
-
         <div class="table-responsive">
 
         <table class="table table-bordered table-striped">
@@ -236,14 +215,14 @@
 
                 {% for code, description in categories %}
 
-                <tr class="dlvc-row" data-code="{{ code }}">
+                <tr class="dlvc-row">
 
                     <td>
-                        <input type="radio" class="status-radio" name="status_{{ code }}" value="Applied">
+                        <input type="radio" name="status_{{ code }}" value="Applied">
                     </td>
 
                     <td>
-                        <input type="radio" class="status-radio" name="status_{{ code }}" value="Existing">
+                        <input type="radio" name="status_{{ code }}" value="Existing">
                     </td>
 
                     <td>
@@ -256,19 +235,19 @@
                     </td>
 
                     <td>
-                        <input type="radio" class="category-radio" name="category_{{ code }}" value="NPL">
+                        <input type="radio" name="category_{{ code }}" value="NPL">
                     </td>
 
                     <td>
-                        <input type="radio" class="category-radio" name="category_{{ code }}" value="PL">
+                        <input type="radio" name="category_{{ code }}" value="PL">
                     </td>
 
                     <td>
-                        <input type="radio" class="clutch-radio" name="clutch_{{ code }}" value="AT">
+                        <input type="radio" name="clutch_{{ code }}" value="AT">
                     </td>
 
                     <td>
-                        <input type="radio" class="clutch-radio" name="clutch_{{ code }}" value="MT">
+                        <input type="radio" name="clutch_{{ code }}" value="MT">
                     </td>
 
                     <td>
@@ -288,7 +267,6 @@
 
 </div>
                 <div class="d-grid mt-4">
-                    <div id="form-error" class="alert alert-danger d-none mb-3">Please fill out all required fields before submitting.</div>
                     <button type="submit" class="btn btn-primary btn-lg">
                         Submit Application
                     </button>
@@ -303,85 +281,35 @@
 </div>
 
 <script> 
-    const form = document.getElementById('licenseForm');
-    const formError = document.getElementById('form-error');
-    const dlvcError = document.getElementById('dlvc-error');
-
     document.querySelectorAll('.dlvc-row').forEach(row => {
-        const statusRadios = row.querySelectorAll('.status-radio');
-        const categoryRadios = row.querySelectorAll('.category-radio');
-        const clutchRadios = row.querySelectorAll('.clutch-radio');
-        const checkboxes = row.querySelectorAll('input[type="checkbox"]');
+    const radios = row.querySelectorAll('input[type="radio"]');
+    const checkboxed = row.querySelectorAll('input[type="checkbox"]');
+    const statusRadios = row.querySelectorAll('.status-radio');
+    const categoryRadios = row.querySelectorAll('.category-radio');
+    const clutchRadios = row.querySelectorAll('.clutch-radio');
 
-        const isRowActive = () => Array.from(statusRadios).some(r => r.checked);
+    const updateValidation = () => {
+        let rowIsActive = Array.from(radios).some(r => r.checked);
 
-        const updateValidation = () => {
-            const active = isRowActive();
-            categoryRadios.forEach(r => r.required = active);
-            clutchRadios.forEach(r => r.required = active);
-        };
+        statusRadios.forEach(r => r.required = rowIsActive);
+        categoryRadios.forEach(r => r.required = rowIsActive);
+        clutchRadios.forEach(r => r.required = rowIsActive);
+    };
 
-        [...statusRadios, ...categoryRadios, ...clutchRadios].forEach(radio => {
-            radio.addEventListener('change', updateValidation);
-        });
-
-        const clearBtn = row.querySelector('.clear-row-btn');
-        if (clearBtn) {
-            clearBtn.addEventListener('click', () => {
-                statusRadios.forEach(r => r.checked = false);
-                categoryRadios.forEach(r => r.checked = false);
-                clutchRadios.forEach(r => r.checked = false);
-                checkboxes.forEach(c => c.checked = false);
-                updateValidation();
-            });
-        }
+    radios.forEach(radio => {
+        radio.addEventListener('change', updateValidation);
     });
 
-    function atLeastOneDlvcRowComplete() {
-        const rows = document.querySelectorAll('.dlvc-row');
-        return Array.from(rows).some(row => {
-            const status = row.querySelector('.status-radio:checked');
-            const category = row.querySelector('.category-radio:checked');
-            const clutch = row.querySelector('.clutch-radio:checked');
-            return status && category && clutch;
+    const clearBtn = row.querySelector('.clear-row-btn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            radios.forEach(r => r.checked = false);
+            checkboxed.forEach(c => c.checked = false);
+            updateValidation();
         });
     }
+});
 
-    form.addEventListener('submit', function (e) {
-        let valid = true;
-
-        // Run native HTML5 validation on all required text/date/select fields
-        if (!form.checkValidity()) {
-            valid = false;
-        }
-
-        // Check DLVC table separately, since it's not driven by simple `required` attrs
-        if (!atLeastOneDlvcRowComplete()) {
-            valid = false;
-            dlvcError.classList.remove('d-none');
-        } else {
-            dlvcError.classList.add('d-none');
-        }
-
-        if (!valid) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            formError.classList.remove('d-none');
-            form.classList.add('was-validated');
-
-            // Scroll to the first invalid field so the user can see it
-            const firstInvalid = form.querySelector(':invalid');
-            if (firstInvalid) {
-                firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                firstInvalid.focus();
-            } else {
-                dlvcError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        } else {
-            formError.classList.add('d-none');
-        }
-    });
 </script>
 
 </body>
