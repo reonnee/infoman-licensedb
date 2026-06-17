@@ -36,7 +36,7 @@ FIELDS = [
       ("Mother's Name", "varchar(80)"),
       ("Spouse's Name", "varchar(80)"),
       ("License Number", "varchar(14)"),
-      ("Highest Educational Attainment (HEA)", "varchar(4)"),
+      ("Highest Educational Attainment (HEA)", "int"),
       ("Height", "decimal(10,0)"),
       ("Weight", "decimal(10,0)"),
       ("Blood Type", "varchar(3)"),
