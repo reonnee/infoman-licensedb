@@ -521,7 +521,7 @@ def delete_record(app_id):
         if record:
             tgt_applicant = record['applicant_id'] if isinstance(record, dict) else record[0]
 
-            cursor.execute("SELECT COUNT(*) FROM application WHERE applicant_id = %s", (applicant_id,))
+            cursor.execute("SELECT COUNT(*) FROM application WHERE applicant_id = %s", (tgt_applicant,))
             count_result = cursor.fetchone()
             app_count = count_result['COUNT(*)'] if isinstance(count_result, dict) else count_result[0]
 
