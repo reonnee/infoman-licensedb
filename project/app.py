@@ -359,8 +359,8 @@ def submit():
         )
 
     final_toa = toa_r if renew else form_data.get("Type of Application (TOA)")
-  if final_toa == "Renewal"
-    final_expiry_date = expiry_date + 10
+        if final_toa == "Renewal"
+            final_expiry_date = expiry_date + 10
       # Insert data into the Application table
     cursor.execute("""
       INSERT INTO application (
