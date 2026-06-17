@@ -19,8 +19,8 @@
                 <div class="col-sm-6"><strong>Application ID:</strong> <code>{{ profile.application_id }}</code></div>
                 <div class="col-sm-6"><strong>Applicant ID:</strong> <code>{{ profile.applicant_id }}</code></div>
                 <div class="col-sm-4"><strong>Type of App (TOA):</strong> {{ profile.toa }}</div>
-                <div class="col-sm-4"><strong>Issue Date:</strong> {{ profile.issue_date }}</div>
-                <div class="col-sm-4"><strong>Expiry Date:</strong> {{ profile.expiry_date }}</div>
+                <div class="col-sm-4"><strong>Issue Date:</strong> {{ profile.issue_date.date() }}</div>
+                <div class="col-sm-4"><strong>Expiry Date:</strong> {{ profile.expiry_date.date() }}</div>
             </div>
         </div>
 
