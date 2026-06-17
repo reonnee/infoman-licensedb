@@ -175,8 +175,8 @@ def submit():
     cursor.execute("""
         SELECT employer_id
         FROM work
-        WHERE empBname = %s
-    """, (emp_name,))
+        WHERE empBname = %s AND empBaddress = %s
+    """, (emp_name, emp_address))
 
     existing_employer = cursor.fetchone()
 
