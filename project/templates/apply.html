@@ -57,6 +57,18 @@
         <div class="card-body">
 
             <form action="/submit" method="POST" novalidate>
+        
+            {% set optional_fields = [
+                "Spouse",
+                "Blood Type",
+                "TIN",
+                "Employer/Business Name",
+                "Employer/Business Contact",
+                "Employer/Business Address",
+                "Organ Details",
+                "License Number"
+            ] %}
+
 
             {% for section in sections %}
 
@@ -144,7 +156,6 @@
                                 <select
                                     class="form-select"
                                     name="{{ field_name }}"
-                                    required
                                 >
                                     <option value="">Select Blood Type</option>
                                     <option>A+</option>
@@ -156,7 +167,6 @@
                                     <option>O+</option>
                                     <option>O-</option>
                                 </select>
-                                <div class="invalid-feedback">Please select blood type.</div>
 
                                 {% elif field_name == "Highest Educational Attainment (HEA)" %}
 
