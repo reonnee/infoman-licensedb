@@ -519,21 +519,29 @@ def delete_record(app_id):
         record = cursor.fetchone()
         
         if record:
-            tgt_applicant = record['applicant_id']
-            
-            # Cascading deletion to safely clear records across related tables
-            cursor.execute("DELETE FROM dl_details WHERE application_id = %s", (app_id,))
-            cursor.execute("DELETE FROM application WHERE application_id = %s", (app_id,))
+            tgt_applicant = record['applicant_id'] if isinstance(record, dict) else record[0]
 
-            cursor.execute("SELECT COUNT(*) AS cnt FROM application WHERE applicant_id = %s", (tgt_applicant,))
-            remaining = cursor.fetchone()
+            cursor.execute("SELECT COUNT(*) FROM application WHERE applicant_id = %s", (applicant_id,))
+            count_result = cursor.fetchone()
+            app_count = count_result['COUNT(*)'] if isinstance(count_result, dict) else count_result[0]
 
-            if remaining['cnt'] == 0:
-            cursor.execute("DELETE FROM emergency WHERE applicant_id = %s", (tgt_applicant,))
-            cursor.execute("DELETE FROM organ WHERE applicant_id = %s", (tgt_applicant,))
+            if app_count == 1:
+                # pag 1 application na lang yung associated sa kanya, saka na lang madedelete si applicant as a whole
+                cursor.execute("DELETE FROM dl_details WHERE application_id = %s", (app_id,))
+                cursor.execute("DELETE FROM application WHERE application_id = %s", (app_id,))
+                cursor.execute("DELETE FROM emergency WHERE applicant_id = %s", (tgt_applicant,))
+                cursor.execute("DELETE FROM organ WHERE applicant_id = %s", (tgt_applicant,))
+                cursor.execute("DELETE FROM applicant WHERE applicant_id = %s", (tgt_applicant,))
+                
+                print("Both the application and the final applicant record were deleted.")
+            else:
+                cursor.execute("DELETE FROM application WHERE application_id = %s", (app_id,))
+                cursor.execute("DELETE FROM dl_details WHERE application_id = %s", (app_id,))
+                print(f"Application deleted. Applicant kept because they have {app_count - 1} other application(s).")
             
             license.commit()
             flash("Record deletion executed successfully.", "success")
+            
         else:
             flash("Target Application Reference ID record profile was not found.", "danger")
     except Exception as e:
