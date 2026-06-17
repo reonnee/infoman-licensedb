@@ -56,7 +56,7 @@
 
         <div class="card-body">
 
-            <form id="licenseForm" novalidate>
+            <form id="licenseForm" action="/submit" method="POST" novalidate>
         
             {% set optional_fields = [
                 "Spouse's Name",
@@ -511,6 +511,9 @@
         } else {
             formError.classList.add('d-none');
             dlvcError.classList.add('d-none');
+            formSuccess.classList.remove('d-none');
+        
+            form.submit();
         }
     });
 
