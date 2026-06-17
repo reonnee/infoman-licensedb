@@ -242,7 +242,7 @@ def submit():
       
     cursor.execute("""
         SELECT dsa_code
-        FROM work
+        FROM dsa_details
         WHERE dsa_details = %s
     """, (dsa_deets,))
 
