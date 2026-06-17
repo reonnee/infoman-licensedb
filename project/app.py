@@ -502,6 +502,14 @@ def success():
     return "Profile data initialization structural failure.", 404
   return render_template('success.html', profile=profile_data)
 
+@app.route('/summary?application_id=<app_id>')
+def summary(app_id):
+  profile_data = retrieve_all(application_id=app_id)
+    
+  if not profile_data:
+    return "Profile data initialization structural failure.", 404
+  return render_template('summary.html', profile=profile_data)
+
 @app.route('/delete/<app_id>', methods=['POST'])
 def delete_record(app_id):
     try:
