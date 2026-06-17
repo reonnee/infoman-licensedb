@@ -72,6 +72,7 @@
         .table th {
             white-space: nowrap;
         }
+        
     </style>
 </head>
 <body style="background-image: linear-gradient(rgba(5, 66, 161, 0.87), rgba(2, 57, 143, 0.9)), url('{{ url_for('static', filename='ltobg.jpg') }}'); background-position: center; background-repeat: no-repeat; background-size: cover; background-attachment: fixed; min-height: 100vh;">
@@ -79,7 +80,8 @@
 <div class="container my-5">
 
     <div class="card shadow p-4 bg-white rounded-3 main-form-card">
-        <div class = "mb-4">
+
+        <div class="mb-4">
             <h2 class="form-page-title text-center">
                 Driver's License Application Form
             </h2>
@@ -375,9 +377,9 @@
 
         <div class="table-responsive">
 
-        <table class="table table-bordered table-striped">
+        <table class="table table-hover table-bordered align-middle">
 
-            <thead>
+            <thead class="table-dark">
                 <tr>
                     <th>Applied</th>
                     <th>Existing</th>
@@ -387,7 +389,7 @@
                     <th>Pro</th>
                     <th>AT</th>
                     <th>MT</th>
-                    <th></th>
+                    <th class="text-center">Action</th>
                 </tr>
             </thead>
 
@@ -430,13 +432,10 @@
                         <input type="radio" class="clutch-radio" name="clutch_{{ code }}" value="MT">
                     </td>
 
-                    <td>
+                    <td class="text-center">
                         <button type="button" class="btn btn-sm btn-outline-danger clear-row-btn">Clear</button>
                     </td>
 
-                    <td class="align-middle">
-                        <small class="dlvc-row-feedback">Missing: <span class="missing-list"></span></small>
-                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -473,7 +472,6 @@
         const categoryRadios = row.querySelectorAll('.category-radio');
         const clutchRadios = row.querySelectorAll('.clutch-radio');
         const checkboxes = row.querySelectorAll('input[type="checkbox"]');
-        const missingLabel = row.querySelector('.missing-list');
 
         const isRowActive = () => Array.from(statusRadios).some(r => r.checked);
 
@@ -490,15 +488,12 @@
             const hasClutch = Array.from(clutchRadios).some(r => r.checked);
 
             if (active && (!hasCategory || !hasClutch)) {
-                const missing = [];
-                if (!hasCategory) missing.push('Category (Non-Pro/Pro)');
-                if (!hasClutch) missing.push('AT/MT');
-                missingLabel.textContent = missing.join(', ');
                 row.classList.add('row-incomplete');
             } else {
                 row.classList.remove('row-incomplete');
             }
         };
+
 
         [...statusRadios, ...categoryRadios, ...clutchRadios].forEach(radio => {
             radio.addEventListener('change', updateValidation);
