@@ -176,7 +176,7 @@ def submit():
   full_name = form_data.get("Full Name")
   father = form_data.get("Father's Name")
   mother = form_data.get("Mother's Name")
-  selected_organs = request.form.getlist("organ_details")
+  selected_organs = request.form.getlist("Organ Details")
 
   #data cleaning
   weight = clean_field(form_data.get("Weight"), is_numeric=True)
@@ -329,6 +329,7 @@ def submit():
     
   # Inset data into the Organ table
     for organ in selected_organs:
+        
       cursor.execute("""
           INSERT INTO organ (
             applicant_id,
