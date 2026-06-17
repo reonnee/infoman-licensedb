@@ -379,7 +379,7 @@ def submit():
 
     final_toa = toa_r if renew else form_data.get("Type of Application (TOA)")
       
-    if final_toa = toa_r:
+    if final_toa == toa_r:
         expiry10 = True
 
     final_expiry = r_expiry_date if expiry10 else expiry_date
