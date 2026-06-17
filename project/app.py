@@ -173,26 +173,10 @@ def submit():
   mother = form_data.get("Mother's Name")
   applicationType = form_data.get("Type of Application (TOA)")
 
-  #titignan if existing ang aplname, if yes then retain aplID
-    cursor.execute("""
-        SELECT applicant_id 
-        FROM applicant 
-        WHERE aplname = %s
-        LIMIT 1
-    """, (full_name,))
-    existing_applicant = cursor.fetchone()
-  except Exception as e:
-    print(f"Error checking existing applicant name: {e}")
-    existing_applicant = None
 
-  # Reuse existing Applicant ID if found, otherwise generate a new one
-  if existing_applicant:
-    applicant_id = existing_applicant['applicant_id']
-  else:
-    applicant_id = generate_id("applicant", "applicant_id", "APL")
-
-  #titingnan if existing na xia
   try:
+      
+    #titingnan if existing na xia
     cursor.execute("""
         SELECT employer_id
         FROM work
@@ -234,7 +218,8 @@ def submit():
         form_data.get("Driving Skills Acquired From (DSA)")
       )
     )
-      
+
+ # applicant table
     cursor.execute("""
         SELECT a.applicant_id 
         FROM applicant a JOIN application b ON a.applicant_id = b.applicant_id
