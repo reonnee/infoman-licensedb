@@ -56,6 +56,9 @@
                             <form action="/delete/{{ row.application_id }}" method="POST" onclick="return confirm('CRITICAL ACTION: Are you sure you want to delete this profile from the MySQL registry? All related record configurations will be lost.');" style="display:inline;">
                                 <button type="submit" class="btn btn-sm btn-danger px-3 fw-medium">Delete</button>
                             </form>
+                            <form action="/summary?application_id={{ row.application_id }}">
+                                <button class="btn btn-sm btn-danger px-3 fw-medium">See Summary</button>
+                            </form>
                         </td>
                     </tr>
                     {% else %}
