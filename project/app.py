@@ -9,13 +9,13 @@ app.secret_key = "license_portal_secret_key"
 
 # tidb
 license = mysql.connector.connect(
-    host=os.environ.get("DB_HOST", "127.0.0.1"),
-    port=int(os.environ.get("DB_PORT", 3306)),
-    user=os.environ.get("DB_USER", "root"),
-    password=os.environ.get("DB_PASSWORD", "June-17-2006"),
-    database=os.environ.get("DB_NAME", "license"),
-    ssl_verify_cert=True,
-) 
+    host=os.environ.get("DB_HOST"),
+    port=int(os.environ.get("DB_PORT")),
+    user=os.environ.get("DB_USER"),
+    password=os.environ.get("DB_PASSWORD"),
+    database=os.environ.get("DB_NAME"),
+    ssl_verify_cert=True
+)
 cursor = license.cursor(dictionary=True)
 
 FIELDS = [
@@ -438,7 +438,7 @@ def success():
     return "Profile data initialization structural failure.", 404
   return render_template('success.html', profile=profile_data)
 
-@app.route('/delete/<path:app_id>', methods=['POST'])
+@app.route('/delete/<app_id>', methods=['POST'])
 def delete_record(app_id):
     try:
         cursor.execute("SELECT applicant_id FROM application WHERE application_id = %s", (app_id,))
@@ -455,12 +455,12 @@ def delete_record(app_id):
             cursor.execute("DELETE FROM applicant WHERE applicant_id = %s", (tgt_applicant,))
             
             license.commit()
-            flash("Target operational record drop executed successfully.", "success")
+            flash("Record deletion executed successfully.", "success")
         else:
             flash("Target Application Reference ID record profile was not found.", "danger")
     except Exception as e:
         license.rollback()
-        flash(f"Deletion cascade transaction aborted: {e}", "danger")
+        flash(f"Deletion transaction aborted: {e}", "danger")
         
     return redirect(url_for('view_records'))
       
