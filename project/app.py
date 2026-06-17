@@ -306,7 +306,7 @@ def submit():
           form_data.get("Father's Name"),
           form_data.get("Mother's Name"),
           form_data.get("Spouse's Name"),
-          form_data.get("License Number"),
+          license_num,
           form_data.get("Highest Educational Attainment (HEA)"),
           height,
           weight,
