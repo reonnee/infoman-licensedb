@@ -228,10 +228,10 @@ def submit():
         )
     )
   #check if LCA = 1
-        if lca == 1:
-            license_num = generate_lto_license_number()
-        else:
-            license_num = form_data.get("License Number")
+    if lca == 1:
+        license_num = generate_lto_license_number()
+    else:
+        license_num = form_data.get("License Number")
   # Insert data into the DSA table
     cursor.execute("""
       INSERT INTO dsa_details (
