@@ -526,7 +526,6 @@ def delete_record(app_id):
             cursor.execute("DELETE FROM application WHERE application_id = %s", (app_id,))
             cursor.execute("DELETE FROM emergency WHERE applicant_id = %s", (tgt_applicant,))
             cursor.execute("DELETE FROM organ WHERE applicant_id = %s", (tgt_applicant,))
-            cursor.execute("DELETE FROM applicant WHERE applicant_id = %s", (tgt_applicant,))
             
             license.commit()
             flash("Record deletion executed successfully.", "success")
