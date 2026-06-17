@@ -157,8 +157,8 @@ def clean_field(val, is_numeric=False):
     if val is None or str(val).strip() == "":
         return None
     return int(val) if is_numeric and str(val).isdigit() else val
-# SUBMITTING THE FORM
-  
+
+# SUBMITTING THE FORM 
 @app.route('/submit', methods=['POST'])
 def submit():
   
@@ -193,7 +193,8 @@ def submit():
   condition = clean_field(form_data.get("Condition"), is_numeric=True)
   lca = clean_field(form_data.get("License Classification Applied For (LCA)"), is_numeric=True)
   organ_donor = 1 if form_data.get("Organ Donor") == "1" else 0
-
+  renew = False
+  toa_r = "Renewal"
 
   try:
       
@@ -256,6 +257,8 @@ def submit():
 
         if existing_applicant:
             applicant_id = existing_applicant['applicant_id']
+            renew = True
+            toa_r = "Renewal"
         else:
             applicant_id = generate_id("applicant", "applicant_id", "APL")
       # Insert data into the Applicant table
@@ -354,7 +357,8 @@ cursor.execute("""
           organ
           )
         )
-      
+
+    final_toa = toa_r if renew else form_data.get("Type of Application (TOA)")
   # Insert data into the Application table
     cursor.execute("""
       INSERT INTO application (
@@ -368,7 +372,7 @@ cursor.execute("""
       (
       application_id, 
       applicant_id, 
-      form_data.get("Type of Application (TOA)"), 
+      final_toa, 
       issue_date, 
       expiry_date
       )
