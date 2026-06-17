@@ -10,46 +10,77 @@
     <link rel="stylesheet" href="styles.css">
 
     <style>
-        .invalid-feedback {
-            color: #dc3545;
-            font-weight: 500;
-            font-size: 0.875rem;
+        .main-form-card {
+            background-color: white;
+            border: none;
+            border-radius: 0.75rem;
         }
-        .was-validated .form-control:invalid,
-        .was-validated .form-select:invalid {
-            border-color: #dc3545;
+
+        .form-page-title {
+            color: #212529;
+            font-weight: 700;
+            margin: 0;
         }
-        .was-validated .form-control:invalid ~ .invalid-feedback,
-        .was-validated .form-select:invalid ~ .invalid-feedback {
-            display: block;
+
+        .section-card {
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
         }
-        .dlvc-row.row-incomplete {
-            background-color: #fff5f5;
+
+        .section-card > .card-header {
+            background-color: #212529;
+            color: white;
+            border-bottom: none;
+            padding: 0.9rem 1.25rem;
         }
-        .dlvc-row-feedback {
-            color: #dc3545;
-            font-weight: 500;
-            font-size: 0.85rem;
-            display: none;
+
+        .section-card > .card-header .section-title,
+        .section-card > .card-header h4 {
+            color: white;
+            font-weight: 700;
+            margin: 0;
         }
-        .dlvc-row.row-incomplete .dlvc-row-feedback {
-            display: block;
+
+        .form-label {
+            color: #212529;
+            font-weight: 600;
+            margin-bottom: 0.45rem;
         }
-        .col-md-6:has(input[required]) .form-label::after,
-        .col-md-6:has(select[required]) .form-label::after {
-            content: " *";
-            color: red;
+
+        .form-control,
+        .form-select {
+            border: 1px solid #ced4da;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            background-color: white;
         }
-        
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+        .table-responsive {
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .table th {
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body style="background-image: linear-gradient(rgba(5, 66, 161, 0.87), rgba(2, 57, 143, 0.9)), url('{{ url_for('static', filename='ltobg.jpg') }}'); background-position: center; background-repeat: no-repeat; background-size: cover; background-attachment: fixed; min-height: 100vh;">
 
 <div class="container my-5">
 
-    <div class="card shadow-lg p-4">
-        <div class = "card-header text-center">
-            <h2 class="card-title">
+    <div class="card shadow p-4 bg-white rounded-3 main-form-card">
+        <div class = "mb-4">
+            <h2 class="form-page-title text-center">
                 Driver's License Application Form
             </h2>
         </div>
