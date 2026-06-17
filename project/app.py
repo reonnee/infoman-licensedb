@@ -438,7 +438,7 @@ def success():
     return "Profile data initialization structural failure.", 404
   return render_template('success.html', profile=profile_data)
 
-@app.route('/delete/<app_id>', methods=['POST'])
+@app.route('/delete/<path:app_id>', methods=['POST'])
 def delete_record(app_id):
     try:
         cursor.execute("SELECT applicant_id FROM application WHERE application_id = %s", (app_id,))
