@@ -133,6 +133,14 @@ def generate_id(table, column, prefix):
             pass
     return f"{prefix}001"
 
+#generate a license number if LCA=1
+def generate_lto_license_number():
+    region_letter = random.choice(['N', 'E', 'D', 'C', 'R']) 
+    region_digits = f"{random.randint(1, 16):02d}"
+    region = f"{region_letter}{region_digits}"
+    year = f"{date.today().year % 100:02d}"
+    serial = ''.join(random.choices(string.digits, k=6))
+    return f"{region}-{year}-{serial}"
 
 # HOMEPAGE
 @app.route('/')
@@ -217,7 +225,11 @@ def submit():
           form_data.get("Employer/Business Address")
           )
         )
-    
+  #check if LCA = 1
+    if lca == 1:
+        license_num = generate_lto_license_number()
+    else:
+        license_num = form_data.get("License Number")
   # Insert data into the DSA table
     cursor.execute("""
       INSERT INTO dsa_details (
