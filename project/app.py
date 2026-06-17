@@ -116,19 +116,22 @@ CATEGORIES = [
 ]
 
 def generate_id(table, column, prefix):
-  cursor.execute(f"""
-    SELECT {column}
-    FROM {table}
-    ORDER BY {column} DESC
-    LIMIT 1
+    cursor.execute(f"""
+        SELECT {column}
+        FROM {table}
+        ORDER BY {column} DESC
+        LIMIT 1
     """)
-  result = cursor.fetchone()
-  
-  if result:
-    last_num = int(result[0][len(prefix):])
-    return f"{prefix}{last_num + 1:03d}"
-  
-  return f"{prefix}001"
+    result = cursor.fetchone()
+    
+    # result is a dictionary, e.g., {"applicant_id": "APL001"}
+    if result and result[column]: 
+        try:
+            last_num = int(result[column][len(prefix):])
+            return f"{prefix}{last_num + 1:03d}"
+        except (ValueError, KeyError):
+            pass
+    return f"{prefix}001"
 
 
 # HOMEPAGE
