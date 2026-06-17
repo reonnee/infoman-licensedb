@@ -255,12 +255,12 @@ def submit():
       
     existing_applicant = cursor.fetchone()
 
-        if existing_applicant:
-            applicant_id = existing_applicant['applicant_id']
-            renew = True
-            toa_r = "Renewal"
-        else:
-            applicant_id = generate_id("applicant", "applicant_id", "APL")
+    if existing_applicant:
+        applicant_id = existing_applicant['applicant_id']
+        renew = True
+        toa_r = "Renewal"
+    else:
+        applicant_id = generate_id("applicant", "applicant_id", "APL")
       # Insert data into the Applicant table
     cursor.execute("""
         INSERT INTO applicant (
